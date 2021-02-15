@@ -18,14 +18,14 @@ public class Recipe {
     private String url;
     private String directions;
 
-    // TODO: add
-    // private Difficulty difficulty;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
     private Set<Ingredient> ingredients;
 
     @Lob // Binary large object field
     private Byte[] image;
+
+    @Enumerated(value = EnumType.STRING) // Overrides default behavior of ORDINAL Enum Type
+    private Difficulty difficulty; // Enum
 
     @OneToOne(cascade = CascadeType.ALL)
     private Notes notes; // 1-1 property
@@ -116,5 +116,13 @@ public class Recipe {
 
     public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 }
