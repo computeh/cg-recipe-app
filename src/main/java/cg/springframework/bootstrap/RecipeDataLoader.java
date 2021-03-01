@@ -11,8 +11,6 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 
 @Component
 public class RecipeDataLoader implements ApplicationListener<ContextRefreshedEvent> {
@@ -32,70 +30,33 @@ public class RecipeDataLoader implements ApplicationListener<ContextRefreshedEve
         recipeRepository.saveAll(getRecipes());
     }
 
+    private UnitOfMeasure getUnitOfMeasure(String description) {
+        return unitOfMeasureRepository
+                .findByDescription(description)
+                .orElseThrow(() -> new RuntimeException("Unit Of measure " + description + " not found"));
+    }
+
+    private Category getCategory(String description) {
+        return categoryRepository
+                .findByDescription(description)
+                .orElseThrow(() -> new RuntimeException("Category " + description + " not found"));
+    }
+
     private List<Recipe> getRecipes() {
 
         List<Recipe> recipes = new ArrayList<>(2);
 
         //get UOMs
-        Optional<UnitOfMeasure> eachUomOptional = unitOfMeasureRepository.findByDescription("Each");
-
-        if(!eachUomOptional.isPresent()){
-            throw new RuntimeException("Expected UOM Not Found");
-        }
-
-        Optional<UnitOfMeasure> tableSpoonUomOptional = unitOfMeasureRepository.findByDescription("Tablespoon");
-
-        if(!tableSpoonUomOptional.isPresent()){
-            throw new RuntimeException("Expected UOM Not Found");
-        }
-
-        Optional<UnitOfMeasure> teaSpoonUomOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
-
-        if(!teaSpoonUomOptional.isPresent()){
-            throw new RuntimeException("Expected UOM Not Found");
-        }
-
-        Optional<UnitOfMeasure> dashUomOptional = unitOfMeasureRepository.findByDescription("Dash");
-
-        if(!dashUomOptional.isPresent()){
-            throw new RuntimeException("Expected UOM Not Found");
-        }
-
-        Optional<UnitOfMeasure> pintUomOptional = unitOfMeasureRepository.findByDescription("Pint");
-
-        if(!pintUomOptional.isPresent()){
-            throw new RuntimeException("Expected UOM Not Found");
-        }
-
-        Optional<UnitOfMeasure> cupsUomOptional = unitOfMeasureRepository.findByDescription("Cup");
-
-        if(!cupsUomOptional.isPresent()){
-            throw new RuntimeException("Expected UOM Not Found");
-        }
-
-        //get optionals
-        UnitOfMeasure eachUom = eachUomOptional.get();
-        UnitOfMeasure tableSpoonUom = tableSpoonUomOptional.get();
-        UnitOfMeasure teaSpoonUom = teaSpoonUomOptional.get();
-        UnitOfMeasure dashUom = dashUomOptional.get();
-        UnitOfMeasure pintUom = pintUomOptional.get();
-        UnitOfMeasure cupsUom = cupsUomOptional.get();
+        UnitOfMeasure eachUom = getUnitOfMeasure("Each");
+        UnitOfMeasure tableSpoonUom = getUnitOfMeasure("Tablespoon");
+        UnitOfMeasure teaSpoonUom = getUnitOfMeasure("Teaspoon");
+        UnitOfMeasure dashUom = getUnitOfMeasure("Dash");
+        UnitOfMeasure pintUom = getUnitOfMeasure("Pint");
+        UnitOfMeasure cupsUom = getUnitOfMeasure("Cup");
 
         //get Categories
-        Optional<Category> americanCategoryOptional = categoryRepository.findByDescription("American");
-
-        if(!americanCategoryOptional.isPresent()){
-            throw new RuntimeException("Expected Category Not Found");
-        }
-
-        Optional<Category> mexicanCategoryOptional = categoryRepository.findByDescription("Mexican");
-
-        if(!mexicanCategoryOptional.isPresent()){
-            throw new RuntimeException("Expected Category Not Found");
-        }
-
-        Category americanCategory = americanCategoryOptional.get();
-        Category mexicanCategory = mexicanCategoryOptional.get();
+        Category americanCategory = getCategory("American");
+        Category mexicanCategory = getCategory("Mexican");
 
         //Yummy Guac
         Recipe guacRecipe = new Recipe();
