@@ -123,6 +123,16 @@ public class Recipe {
         return ingredients;
     }
 
+    /*
+        addIngredient:
+        Helper method that makes code in DataLoader a lot less redunant
+     */
+    public Recipe addIngredient(Ingredient ingredient) {
+        ingredient.setRecipe(this);
+        this.ingredients.add(ingredient);
+        return this;
+    }
+
     public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
