@@ -4,6 +4,7 @@ import cg.springframework.model.*;
 import cg.springframework.repositories.CategoryRepository;
 import cg.springframework.repositories.RecipeRepository;
 import cg.springframework.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Component
 public class RecipeDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -28,6 +30,7 @@ public class RecipeDataLoader implements ApplicationListener<ContextRefreshedEve
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         recipeRepository.saveAll(getRecipes());
+        log.debug("I am in RecipeDataLoader");
     }
 
     private UnitOfMeasure getUnitOfMeasure(String description) {
@@ -43,7 +46,6 @@ public class RecipeDataLoader implements ApplicationListener<ContextRefreshedEve
     }
 
     private List<Recipe> getRecipes() {
-
         List<Recipe> recipes = new ArrayList<>(2);
 
         //get UOMs
