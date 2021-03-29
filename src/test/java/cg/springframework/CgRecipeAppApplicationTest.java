@@ -1,12 +1,13 @@
-package cg.springframework.cgrecipeapp;
+package cg.springframework;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-//@SpringBootTest -- This annotation creates a failing test.
-public class CgRecipeAppApplicationTests {
+@SpringBootTest
+public class CgRecipeAppApplicationTest {
 
     @Test
     public void contextLoads() {
