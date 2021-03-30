@@ -38,6 +38,9 @@ public class IndexControllerTest {
         controller = new IndexController(recipeService);
     }
 
+    /*
+        MockMvc is used to test the web layer of a Spring Application
+     */
     @Test
     public void testMockMVC() throws Exception {
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
